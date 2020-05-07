@@ -15,10 +15,10 @@ export function addStop(stop: Stop): AddStopAction {
   };
 }
 
-export function editStop(customName: string): EditStopAction {
+export function editStop(stop: Stop): EditStopAction {
   return {
     type: EDIT_STOP,
-    payload: { customName },
+    payload: stop,
   };
 }
 
@@ -27,4 +27,8 @@ export function removeStop(stop: Stop): RemoveStopAction {
     type: REMOVE_STOP,
     payload: stop,
   };
+}
+
+export function eraseAll() {
+  return { type: "ERASE_ALL" };
 }

@@ -8,8 +8,9 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
+    "baseUrl": "./src",
     "paths": {
-      "@stops": ["./src/redux/stops/*"]
+      "@stops": ["redux/stops/*"]
     }
   }
 }

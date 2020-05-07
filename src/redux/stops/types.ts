@@ -5,7 +5,7 @@ export const REMOVE_STOP = "REMOVE_STOP";
 export interface Stop {
   code: string;
   provider: string;
-  customName: string | undefined;
+  customName?: string;
 }
 
 export interface AddStopAction {
