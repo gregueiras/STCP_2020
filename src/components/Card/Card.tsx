@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: defaultColor,
-    height: `${headerSize}%`,
+    height: `${headerSize + 0.1}%`,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
