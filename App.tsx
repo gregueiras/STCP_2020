@@ -1,19 +1,37 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import Main from "./src/pages/Main";
+import { loadAsync } from "expo-font";
+import { AppLoading, SplashScreen } from "expo";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+export default function MyApp() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadFonts() {
+      await loadAsync({
+        // Load a font `Montserrat` from a static resource
+
+        Montserrat: {
+          uri: require("./assets/fonts/Montserrat-Regular.ttf"),
+        },
+        "Montserrat-Medium": {
+          uri: require("./assets/fonts/Montserrat-Medium.ttf"),
+        },
+        "Montserrat-Bold": {
+          uri: require("./assets/fonts/Montserrat-Bold.ttf"),
+        },
+      });
+
+      SplashScreen.hide();
+      setLoading(false);
+    }
+
+    loadFonts();
+  }, []);
+
+  return loading ? (
+    <AppLoading onError={console.warn} autoHideSplash={false} />
+  ) : (
+    <Main />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
