@@ -8,8 +8,8 @@ const CardLine = () => {
     <View style={styles.container}>
       <Badge line="500" />
       <View style={styles.lineDescription}>
-        <Text>Foz</Text>
-        <Text>5 mins</Text>
+        <Text style={styles.text}>Foz</Text>
+        <Text style={styles.text}>5 mins</Text>
       </View>
       <Alarm active={false} />
     </View>
@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     marginRight: "3%",
     marginLeft: "3%",
     alignItems: "center",
+  },
+  text: {
+    fontFamily: "Montserrat",
   },
   lineDescription: {
     display: "flex",
