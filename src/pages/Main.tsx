@@ -1,18 +1,34 @@
 import React, { useEffect } from "react";
 import MapView from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions, FlatList } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  Dimensions,
+  FlatList,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { RootState } from "redux/store";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import Card from "../components/Card/Card";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/store";
-
 import { defaultColor } from "../constants";
+import sharedStyles from "./styles";
 
 export default function App() {
+  const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={sharedStyles.buttonRight}
+        onPress={() => navigation.navigate("Settings")}
+      >
+        <Ionicons name="ios-settings" size={32} color="black" />
+      </TouchableOpacity>
       {stops?.length > 0 ? (
         <FlatList
           showsHorizontalScrollIndicator={false}
@@ -57,6 +73,7 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+    zIndex: 1,
   },
   list: {
     position: "absolute",

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Main from "./src/pages/Main";
+import RootStack from "./src/navigation/RootStack";
 import { loadAsync } from "expo-font";
 import { AppLoading, SplashScreen } from "expo";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import setupStore from "./src/redux/store";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function MyApp() {
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,9 @@ export default function MyApp() {
   ) : (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Main />
+        <NavigationContainer>
+          <RootStack />
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   );
