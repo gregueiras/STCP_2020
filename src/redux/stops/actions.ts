@@ -10,6 +10,7 @@ import {
 
 import { loadLocation, PROVIDERS } from "../../services/location";
 import { Dispatch } from "redux";
+import * as Sentry from "sentry-expo";
 
 function formatProvider(provider: string, code?: string) {
   if (provider.toUpperCase().trim() === PROVIDERS.STCP) {
@@ -31,6 +32,7 @@ export function addStop(stop: Stop): (dispatch: Dispatch) => void {
       const location = await loadLocation(formattedStop);
       dispatch(addStopAux({ ...formattedStop, location }));
     } catch (error) {
+      Sentry.captureException(error);
       return console.error(error);
     }
   };

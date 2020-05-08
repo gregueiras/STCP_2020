@@ -1,3 +1,4 @@
+import * as Sentry from "sentry-expo";
 import { StopLocation, Stop } from "../redux/stops/types";
 export const PROVIDERS = {
   STCP: "STCP",
@@ -77,6 +78,7 @@ export async function findPlace(
           };
         });
       } catch (error) {
+        Sentry.captureException(error);
         return [];
       }
     });
@@ -102,6 +104,7 @@ export async function loadLocation({ provider, code }: Stop) {
       coords.latitude = lat;
       coords.longitude = lon;
     } catch (error) {
+      Sentry.captureException(error);
       console.error(error);
     }
   }
