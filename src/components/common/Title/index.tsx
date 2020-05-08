@@ -1,16 +1,31 @@
-import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  LayoutChangeEvent,
+} from "react-native";
 import { defaultColor } from "../../../constants";
 
 interface TitleProps {
   text: string;
+  lineSize: number;
 }
 
-const Title = ({ text }: TitleProps) => {
+const Title = ({ text, lineSize }: TitleProps) => {
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.title}>{text}</Text>
-      <View style={styles.titleLine} />
+      <View>
+        <Text style={styles.title}>{text}</Text>
+      </View>
+      <View
+        style={{
+          ...styles.titleLine,
+          width: lineSize,
+          marginLeft: lineSize * 0.05,
+        }}
+      />
     </View>
   );
 };
@@ -19,14 +34,12 @@ export default Title;
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Dimensions.get("window").width * 0.05,
-    marginLeft: Dimensions.get("window").width * 0.05,
+    marginTop: Dimensions.get("screen").width * 0.05,
+    marginLeft: Dimensions.get("screen").width * 0.05,
   },
   titleLine: {
     borderBottomColor: defaultColor,
     height: 3,
-    width: Dimensions.get("window").fontScale * 185,
-    marginLeft: Dimensions.get("window").fontScale * 5,
     backgroundColor: defaultColor,
   },
   title: {

@@ -43,11 +43,6 @@ export default function App() {
             />
           )}
           keyExtractor={(_, index) => String(index)}
-          onViewableItemsChanged={(info) => console.log(info)}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 50,
-            minimumViewTime: 200,
-          }}
         />
       ) : (
         <View style={styles.list}>

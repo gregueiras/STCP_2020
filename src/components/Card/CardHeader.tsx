@@ -15,7 +15,7 @@ const CardHeader = ({
   return (
     <View style={containerStyle}>
       <Text style={styles.headerText}>
-        {customName ?? `${provider} - ${code}`}
+        {customName || `${provider} - ${code}`}
       </Text>
     </View>
   );

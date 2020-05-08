@@ -1,33 +1,45 @@
-import React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import React, { Dispatch, SetStateAction } from "react";
+import { View, Text, StyleSheet, Platform, Dimensions } from "react-native";
 import { Stop } from "../../redux/stops/types";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { removeStop } from "../../redux/stops/actions";
 
 interface ListItemProps {
   stop: Stop;
+  setSelectedStop: Dispatch<SetStateAction<Stop | undefined>>;
 }
 
-const ListItem = ({ stop }: ListItemProps) => {
+const ListItem = ({ stop, setSelectedStop }: ListItemProps) => {
   const { code, provider, customName } = stop;
+  const dispatch = useDispatch();
+
+  const name = customName
+    ? `${customName} (${provider} - ${code})`
+    : `${provider} - ${code}`;
 
   return (
     <View style={styles.item}>
       <View>
-        <Text>{customName ?? `${provider} - ${code}`}</Text>
+        <Text numberOfLines={1} style={styles.text}>
+          {name}
+        </Text>
       </View>
-      <View>
-        <TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => setSelectedStop(stop)}>
           <Ionicons
             name={`${Platform.OS === "ios" ? "ios" : "md"}-create`}
-            size={24}
+            size={32}
             color="black"
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => dispatch(removeStop({ code, provider }))}
+        >
           <Ionicons
             name={`${Platform.OS === "ios" ? "ios" : "md"}-trash`}
-            size={24}
+            size={32}
             color="black"
           />
         </TouchableOpacity>
@@ -38,9 +50,20 @@ const ListItem = ({ stop }: ListItemProps) => {
 
 const styles = StyleSheet.create({
   item: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: Dimensions.get("screen").width * 0.03,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: Dimensions.get("screen").width * 0.15,
+  },
+  text: {
+    fontFamily: "Montserrat",
+    fontSize: 16,
+    maxWidth: Dimensions.get("screen").width * 0.6,
   },
 });
 

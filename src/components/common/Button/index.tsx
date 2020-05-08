@@ -1,34 +1,69 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacityProps,
+} from "react-native";
 import { defaultColor } from "../../../constants";
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   text: string;
   onPress: () => void;
+  variant?: "secondary";
 }
 
-const Button = ({ text, onPress }: ButtonProps) => {
+const Button = ({ text, onPress, variant, ...rest }: ButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.text}>{text}</Text>
+    <TouchableOpacity
+      onPress={onPress}
+      style={variant === "secondary" ? styles.secondaryButton : styles.button}
+      {...rest}
+    >
+      <Text
+        style={variant === "secondary" ? styles.secondaryText : styles.text}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 export default Button;
 
+const buttonStyle: ViewStyle = {
+  borderRadius: 5,
+  width: 123,
+  height: 35,
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const textStyle: TextStyle = {
+  fontFamily: "Montserrat-Medium",
+  fontSize: 16,
+};
+
 const styles = StyleSheet.create({
   button: {
+    ...buttonStyle,
     backgroundColor: defaultColor,
-    borderRadius: 5,
-    width: 123,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  secondaryButton: {
+    ...buttonStyle,
+    backgroundColor: "white",
+    borderColor: defaultColor,
+    borderWidth: 1.5,
   },
   text: {
+    ...textStyle,
     color: "white",
-    fontFamily: "Montserrat-Medium",
-    fontSize: 16,
+  },
+  secondaryText: {
+    ...textStyle,
+    color: defaultColor,
   },
 });
