@@ -10,12 +10,7 @@ import {
   StopsState,
 } from "./types";
 
-export const initialState: StopsState = [
-  { code: "BVLH3", provider: "STCP" },
-  { code: "BVLH1", provider: "STCP" },
-  { code: "BVLH2", provider: "STCP" },
-  { code: "BVLH4", provider: "STCP" },
-];
+export const initialState: StopsState = [];
 
 export function stopsReducer(state = initialState, action: StopActionTypes) {
   switch (action.type) {

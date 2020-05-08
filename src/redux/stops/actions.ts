@@ -8,7 +8,35 @@ import {
   Stop,
 } from "./types";
 
-export function addStop(stop: Stop): AddStopAction {
+import { loadLocation, PROVIDERS } from "../../services/location";
+import { Dispatch } from "redux";
+
+function formatProvider(provider: string, code?: string) {
+  if (provider.toUpperCase().trim() === PROVIDERS.STCP) {
+    return code?.toUpperCase().trim() ?? provider.toUpperCase().trim();
+  } else {
+    return code?.trim() ?? provider.trim();
+  }
+}
+
+export function addStop(stop: Stop): (dispatch: Dispatch) => void {
+  return async function (dispatch: Dispatch): Promise<void> {
+    const formattedStop: Stop = {
+      ...stop,
+      provider: formatProvider(stop.provider),
+      code: formatProvider(stop.provider, stop.code),
+    };
+
+    try {
+      const location = await loadLocation(formattedStop);
+      dispatch(addStopAux({ ...formattedStop, location }));
+    } catch (error) {
+      return console.error(error);
+    }
+  };
+}
+
+export function addStopAux(stop: Stop): AddStopAction {
   return {
     type: ADD_STOP,
     payload: stop,

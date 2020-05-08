@@ -2,10 +2,16 @@ export const ADD_STOP = "ADD_STOP";
 export const EDIT_STOP = "EDIT_STOP";
 export const REMOVE_STOP = "REMOVE_STOP";
 
+export interface StopLocation {
+  latitude: number;
+  longitude: number;
+}
+
 export interface Stop {
   code: string;
   provider: string;
   customName?: string;
+  location?: StopLocation;
 }
 
 export interface AddStopAction {

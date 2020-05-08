@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
 import { Stop } from "../../redux/stops/types";
+import { getName } from "../../services/aux";
 
 interface CardHeaderProps extends Stop {
   containerStyle: ViewStyle;
@@ -15,7 +16,7 @@ const CardHeader = ({
   return (
     <View style={containerStyle}>
       <Text style={styles.headerText}>
-        {customName || `${provider} - ${code}`}
+        {getName({ code, provider, customName })}
       </Text>
     </View>
   );

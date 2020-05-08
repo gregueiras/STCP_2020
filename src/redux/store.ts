@@ -1,6 +1,7 @@
 import createSecureStore from "redux-persist-expo-securestore";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
 
 import { stopsReducer } from "./stops/reducers";
 import { StopsState } from "./stops/types";
@@ -21,7 +22,7 @@ const rootReducer = combineReducers<RootState>({
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 export default () => {
-  let store = createStore(persistedReducer);
+  let store = createStore(persistedReducer, applyMiddleware(thunk));
   let persistor = persistStore(store);
   return { store, persistor };
 };

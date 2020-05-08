@@ -1,5 +1,5 @@
-import React, { useEffect, createRef, useRef } from "react";
-import MapView from "react-native-maps";
+import React, { useRef, useState } from "react";
+import MapView, { Marker, Region } from "react-native-maps";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -17,19 +17,45 @@ import { useNavigation } from "@react-navigation/native";
 import Card from "../components/Card/Card";
 import { defaultColor } from "../constants";
 import sharedStyles from "./styles";
+import { Stop } from "../redux/stops/types";
+import { getName } from "../services/aux";
 
 interface OnView {
   viewableItems: ViewToken[];
   changed: ViewToken[];
 }
 
+const defaultDelta = {
+  latitudeDelta: 0.00922,
+  longitudeDelta: 0.00421,
+};
+
+const defaultState = {
+  ...defaultDelta,
+  latitude: 41.14961,
+  longitude: -8.61099,
+};
+
 export default function App() {
   const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
+  const [location, setLocation] = useState<Region | undefined>(defaultState);
 
   const onViewRef = useRef(({ viewableItems }: OnView) => {
-    console.log(viewableItems);
-    // Use viewable items in state or as intended
+    const { location } = viewableItems[0].item as Stop;
+
+    console.log(viewableItems[0].item);
+    if (location) {
+      const offsetLocation = {
+        ...location,
+        latitude: location.latitude - 0.0015,
+      };
+      console.log(offsetLocation);
+
+      setLocation({ ...offsetLocation, ...defaultDelta });
+    } else {
+      setLocation(undefined);
+    }
   });
   const viewConfigRef = useRef({
     itemVisiblePercentThreshold: 50,
@@ -67,7 +93,27 @@ export default function App() {
         </View>
       )}
 
-      <MapView style={styles.mapStyle} />
+      <MapView
+        style={styles.mapStyle}
+        region={location ?? defaultState}
+        showsUserLocation
+        showsMyLocationButton
+        showsCompass
+        toolbarEnabled={false}
+        compassOffset={{ x: -Dimensions.get("window").width * 0.86, y: 0 }}
+      >
+        {stops.map((stop) => {
+          const { location } = stop;
+          if (location)
+            return (
+              <Marker
+                key={JSON.stringify(location)}
+                coordinate={location}
+                title={getName(stop)}
+              />
+            );
+        })}
+      </MapView>
     </View>
   );
 }

@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { removeStop } from "../../redux/stops/actions";
+import { getName } from "../../services/aux";
 
 interface ListItemProps {
   stop: Stop;
@@ -12,12 +13,10 @@ interface ListItemProps {
 }
 
 const ListItem = ({ stop, setSelectedStop }: ListItemProps) => {
-  const { code, provider, customName } = stop;
+  const { code, provider } = stop;
   const dispatch = useDispatch();
 
-  const name = customName
-    ? `${customName} (${provider} - ${code})`
-    : `${provider} - ${code}`;
+  const name = getName(stop);
 
   return (
     <View style={styles.item}>
