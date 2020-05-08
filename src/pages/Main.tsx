@@ -47,7 +47,6 @@ export default function App() {
 
     const { location } = viewableItems[0].item as Stop;
 
-    console.log(viewableItems[0].item);
     if (location) {
       const offsetLocation = {
         ...location,

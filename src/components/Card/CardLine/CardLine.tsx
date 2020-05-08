@@ -2,14 +2,21 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Badge from "./Badge";
 import Alarm from "./Alarm";
+import { Line } from "../../../services/stops";
 
-const CardLine = () => {
+interface CardLineProps {
+  lineStop: Line;
+}
+
+const CardLine = ({ lineStop }: CardLineProps) => {
+  const { destination, line, remainingTime, time } = lineStop;
+
   return (
     <View style={styles.container}>
-      <Badge line="500" />
+      <Badge line={line} />
       <View style={styles.lineDescription}>
-        <Text style={styles.text}>Foz</Text>
-        <Text style={styles.text}>5 mins</Text>
+        <Text style={styles.text}>{destination}</Text>
+        <Text style={styles.text}>{remainingTime || time}</Text>
       </View>
       <Alarm active={false} />
     </View>
