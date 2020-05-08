@@ -18,5 +18,12 @@
     "ios": {
       "supportsTablet": true
     }
+  },
+  "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps"
+      }
+    ]
   }
 }
