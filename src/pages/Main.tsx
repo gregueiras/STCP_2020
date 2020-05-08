@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, createRef, useRef } from "react";
 import MapView from "react-native-maps";
 import {
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   View,
   Dimensions,
   FlatList,
+  ViewToken,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootState } from "redux/store";
@@ -17,9 +18,23 @@ import Card from "../components/Card/Card";
 import { defaultColor } from "../constants";
 import sharedStyles from "./styles";
 
+interface OnView {
+  viewableItems: ViewToken[];
+  changed: ViewToken[];
+}
+
 export default function App() {
   const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
+
+  const onViewRef = useRef(({ viewableItems }: OnView) => {
+    console.log(viewableItems);
+    // Use viewable items in state or as intended
+  });
+  const viewConfigRef = useRef({
+    itemVisiblePercentThreshold: 50,
+    minimumViewTime: 200,
+  });
 
   return (
     <View style={styles.container}>
@@ -42,7 +57,9 @@ export default function App() {
               customName={item.customName}
             />
           )}
-          keyExtractor={(_, index) => String(index)}
+          keyExtractor={({ code, provider }) => `${code}_${provider}`}
+          onViewableItemsChanged={onViewRef.current}
+          viewabilityConfig={viewConfigRef.current}
         />
       ) : (
         <View style={styles.list}>
