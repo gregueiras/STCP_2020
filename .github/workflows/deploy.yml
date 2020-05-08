@@ -25,6 +25,7 @@ jobs:
         USERNAME: ${{secrets.EXPO_CLI_USERNAME}}
         PASSWORD: ${{secrets.EXPO_CLI_PASSWORD}}
       run: |
-        sudo npm install -g expo-cli
+        sudo yarn global add expo-cli
         expo login -u "$USERNAME" -p "$PASSWORD"
+        yarn
         expo publish
