@@ -40,6 +40,7 @@ export default function App() {
   const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
   const [location, setLocation] = useState<Region | undefined>(defaultState);
+  const mapRef = useRef<MapView>(null);
 
   const onViewRef = useRef(({ viewableItems }: OnView) => {
     const { location } = viewableItems[0].item as Stop;
@@ -50,9 +51,9 @@ export default function App() {
         ...location,
         latitude: location.latitude - 0.0015,
       };
-      console.log(offsetLocation);
 
-      setLocation({ ...offsetLocation, ...defaultDelta });
+      const region = { ...offsetLocation, ...defaultDelta };
+      mapRef.current?.animateToRegion(region);
     } else {
       setLocation(undefined);
     }
@@ -99,6 +100,7 @@ export default function App() {
         showsUserLocation
         showsMyLocationButton
         showsCompass
+        ref={mapRef}
         toolbarEnabled={false}
         compassOffset={{ x: -Dimensions.get("window").width * 0.86, y: 0 }}
       >
