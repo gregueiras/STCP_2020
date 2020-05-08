@@ -5,9 +5,11 @@ import CardHeader from "./CardHeader";
 import CardContent from "./CardContent";
 import { Stop } from "../../redux/stops/types";
 
-interface CardProps extends Stop {}
+interface CardProps extends Stop {
+  message?: string;
+}
 
-const Card = ({ code, provider, customName }: CardProps) => {
+const Card = ({ code, provider, customName, message }: CardProps) => {
   return (
     <View style={styles.container}>
       <CardHeader
@@ -16,7 +18,7 @@ const Card = ({ code, provider, customName }: CardProps) => {
         customName={customName}
         containerStyle={styles.header}
       />
-      <CardContent containerStyle={styles.content} />
+      <CardContent containerStyle={styles.content} message={message} />
     </View>
   );
 };

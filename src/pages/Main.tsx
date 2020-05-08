@@ -43,6 +43,8 @@ export default function App() {
   const mapRef = useRef<MapView>(null);
 
   const onViewRef = useRef(({ viewableItems }: OnView) => {
+    if (viewableItems.length === 0) return;
+
     const { location } = viewableItems[0].item as Stop;
 
     console.log(viewableItems[0].item);
@@ -71,29 +73,25 @@ export default function App() {
       >
         <Ionicons name="ios-settings" size={32} color="black" />
       </TouchableOpacity>
-      {stops?.length > 0 ? (
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          style={styles.list}
-          data={stops}
-          renderItem={({ item }) => (
-            <Card
-              code={item.code}
-              provider={item.provider}
-              customName={item.customName}
-            />
-          )}
-          keyExtractor={({ code, provider }) => `${code}_${provider}`}
-          onViewableItemsChanged={onViewRef.current}
-          viewabilityConfig={viewConfigRef.current}
-        />
-      ) : (
-        <View style={styles.list}>
-          <Text>Add Some Stops! :)</Text>
-        </View>
-      )}
-
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={styles.list}
+        data={stops}
+        renderItem={({ item }) => (
+          <Card
+            code={item.code}
+            provider={item.provider}
+            customName={item.customName}
+          />
+        )}
+        keyExtractor={({ code, provider }) => `${code}_${provider}`}
+        onViewableItemsChanged={onViewRef.current}
+        ListEmptyComponent={() => (
+          <Card code="" provider="" message="Acrescente algumas paragens!" />
+        )}
+        viewabilityConfig={viewConfigRef.current}
+      />
       <MapView
         style={styles.mapStyle}
         region={location ?? defaultState}

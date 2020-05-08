@@ -38,6 +38,11 @@ const Settings = () => {
               <ListItem stop={item} setSelectedStop={setSelectedStop} />
             )}
             keyExtractor={({ code, provider }) => `${code}_${provider}`}
+            ListEmptyComponent={() => (
+              <Text style={styles.emptyMessage}>
+                Acrescente algumas paragens!
+              </Text>
+            )}
           />
           <View style={styles.button}>
             <Button text="Nova Paragem" onPress={() => setOpenNewStop(true)} />
@@ -66,7 +71,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
   },
-
+  emptyMessage: {
+    fontFamily: "Montserrat",
+    fontSize: 16,
+    color: "#555",
+    alignSelf: "center",
+    marginTop: Dimensions.get("window").width * 0.05,
+  },
   list: {
     flexGrow: 1,
   },

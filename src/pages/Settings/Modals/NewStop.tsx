@@ -12,12 +12,12 @@ interface NewStopProps {
 }
 
 const NewStop = ({ open, setOpen }: NewStopProps) => {
-  const [provider, setProvider] = useState("");
+  const [provider, setProvider] = useState("STCP");
   const [stop, setStop] = useState("");
   const dispatch = useDispatch();
 
   function reset() {
-    setProvider("");
+    setProvider("STCP");
     setStop("");
     setOpen(false);
   }
@@ -35,14 +35,14 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
           <Title text="Nova Paragem" lineSize={130} />
         </View>
         <View style={styles.content}>
-          <View>
+          {/*<View>
             <Text style={styles.label}>Fornecedor</Text>
             <TextInput
               value={provider}
               onChangeText={setProvider}
               style={styles.input}
             />
-          </View>
+          </View>*/}
           <View>
             <Text style={styles.label}>Paragem</Text>
             <TextInput
