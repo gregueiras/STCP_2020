@@ -9,8 +9,5 @@
     "resolveJsonModule": true,
     "strict": true,
     "baseUrl": "./src",
-    "paths": {
-      "@stops": ["redux/stops/*"]
-    }
   }
 }

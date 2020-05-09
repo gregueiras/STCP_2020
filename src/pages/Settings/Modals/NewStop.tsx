@@ -1,10 +1,11 @@
-import React, { SetStateAction, Dispatch, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, TextInput } from "react-native";
-import Modal from "react-native-modal";
-import Title from "../../../components/common/Title";
-import Button from "../../../components/common/Button";
-import { useDispatch } from "react-redux";
-import { addStop } from "../../../redux/stops/actions";
+import React, { SetStateAction, Dispatch, useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, TextInput } from 'react-native';
+import Modal from 'react-native-modal';
+import { useDispatch } from 'react-redux';
+
+import Button from '../../../components/common/Button';
+import Title from '../../../components/common/Title';
+import { addStop } from '../../../redux/stops/actions';
 
 interface NewStopProps {
   open: boolean;
@@ -12,13 +13,13 @@ interface NewStopProps {
 }
 
 const NewStop = ({ open, setOpen }: NewStopProps) => {
-  const [provider, setProvider] = useState("STCP");
-  const [stop, setStop] = useState("");
+  const [provider, setProvider] = useState('STCP');
+  const [stop, setStop] = useState('');
   const dispatch = useDispatch();
 
   function reset() {
-    setProvider("STCP");
-    setStop("");
+    setProvider('STCP');
+    setStop('');
     setOpen(false);
   }
 
@@ -35,21 +36,17 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
           <Title text="Nova Paragem" lineSize={130} />
         </View>
         <View style={styles.content}>
-          {/*<View>
+          {/* <View>
             <Text style={styles.label}>Fornecedor</Text>
             <TextInput
               value={provider}
               onChangeText={setProvider}
               style={styles.input}
             />
-          </View>*/}
+          </View> */}
           <View>
             <Text style={styles.label}>Paragem</Text>
-            <TextInput
-              value={stop}
-              onChangeText={setStop}
-              style={styles.input}
-            />
+            <TextInput value={stop} onChangeText={setStop} style={styles.input} />
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -71,20 +68,20 @@ export default NewStop;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFFFF",
-    height: "50%",
+    backgroundColor: '#FFFFFF',
+    height: '50%',
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: Dimensions.get("screen").width * 0.05,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginBottom: Dimensions.get('screen').width * 0.05,
   },
   content: {
     flexGrow: 1,
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
   },
   input: {
-    borderColor: "#000000",
+    borderColor: '#000000',
     borderWidth: 1.5,
     borderRadius: 5,
     marginHorizontal: 5,
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginHorizontal: 5,
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     marginBottom: 5,
   },
 });

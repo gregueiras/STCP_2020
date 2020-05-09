@@ -1,8 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Badge from "./Badge";
-import Alarm from "./Alarm";
-import { Line } from "../../../services/stops";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { Line } from '../../../services/stops';
+import Alarm from './Alarm';
+import Badge from './Badge';
 
 interface CardLineProps {
   lineStop: Line;
@@ -25,22 +26,22 @@ const CardLine = ({ lineStop }: CardLineProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginRight: "3%",
-    marginLeft: "3%",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginRight: '3%',
+    marginLeft: '3%',
+    alignItems: 'center',
   },
   text: {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
   },
   lineDescription: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: "3%",
-    marginLeft: "3%",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: '3%',
+    marginLeft: '3%',
     flexGrow: 1,
   },
 });

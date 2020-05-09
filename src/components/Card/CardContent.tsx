@@ -1,14 +1,8 @@
-import React, { SetStateAction, Dispatch } from "react";
-import {
-  Text,
-  View,
-  ViewStyle,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-} from "react-native";
-import CardLine from "./CardLine";
-import { Line } from "../../services/stops";
+import React from 'react';
+import { Text, View, ViewStyle, StyleSheet, FlatList } from 'react-native';
+
+import { Line } from '../../services/stops';
+import CardLine from './CardLine';
 
 interface CardContentProps {
   containerStyle: ViewStyle;
@@ -18,15 +12,7 @@ interface CardContentProps {
   loading: boolean;
 }
 
-const CardContent = ({
-  containerStyle,
-  message,
-  lines,
-  refresh,
-  loading,
-}: CardContentProps) => {
-  console.log(loading, lines[0]);
-
+const CardContent = ({ containerStyle, message, lines, refresh, loading }: CardContentProps) => {
   return (
     <View style={containerStyle}>
       {message ? (
@@ -60,13 +46,13 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   message: {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontSize: 16,
-    color: "#555",
+    color: '#555',
   },
 });
 

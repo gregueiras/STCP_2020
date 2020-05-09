@@ -1,5 +1,6 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+/* eslint-disable react/jsx-props-no-spreading */
+import * as React from 'react';
+import Svg, { Path } from 'react-native-svg';
 
 function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
   return (

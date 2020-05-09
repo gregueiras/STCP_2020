@@ -1,24 +1,16 @@
-import React, { useRef, useState } from "react";
-import MapView, { Marker, Region } from "react-native-maps";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-  Dimensions,
-  FlatList,
-  ViewToken,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { RootState } from "redux/store";
-import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View, Dimensions, FlatList, ViewToken } from 'react-native';
+import MapView, { Marker, Region } from 'react-native-maps';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
-import Card from "../components/Card/Card";
-import { defaultColor } from "../constants";
-import sharedStyles from "./styles";
-import { Stop } from "../redux/stops/types";
-import { getName } from "../services/aux";
+import Card from '../components/Card/Card';
+import { defaultColor } from '../constants';
+import { Stop } from '../redux/stops/types';
+import { getName } from '../services/aux';
+import sharedStyles from './styles';
 
 interface OnView {
   viewableItems: ViewToken[];
@@ -45,15 +37,16 @@ export default function App() {
   const onViewRef = useRef(({ viewableItems }: OnView) => {
     if (viewableItems.length === 0) return;
 
-    const { location } = viewableItems[0].item as Stop;
+    const { location: loc } = viewableItems[0].item as Stop;
 
-    if (location) {
+    if (loc) {
       const offsetLocation = {
-        ...location,
-        latitude: location.latitude - 0.0015,
+        ...loc,
+        latitude: loc.latitude - 0.0015,
       };
 
       const region = { ...offsetLocation, ...defaultDelta };
+      // eslint-disable-next-line no-unused-expressions
       mapRef.current?.animateToRegion(region);
     } else {
       setLocation(undefined);
@@ -66,10 +59,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={sharedStyles.buttonRight}
-        onPress={() => navigation.navigate("Settings")}
-      >
+      <TouchableOpacity style={sharedStyles.buttonRight} onPress={() => navigation.navigate('Settings')}>
         <Ionicons name="ios-settings" size={32} color="black" />
       </TouchableOpacity>
       <FlatList
@@ -77,18 +67,10 @@ export default function App() {
         horizontal
         style={styles.list}
         data={stops}
-        renderItem={({ item }) => (
-          <Card
-            code={item.code}
-            provider={item.provider}
-            customName={item.customName}
-          />
-        )}
+        renderItem={({ item }) => <Card code={item.code} provider={item.provider} customName={item.customName} />}
         keyExtractor={({ code, provider }) => `${code}_${provider}`}
         onViewableItemsChanged={onViewRef.current}
-        ListEmptyComponent={() => (
-          <Card code="" provider="" message="Acrescente algumas paragens!" />
-        )}
+        ListEmptyComponent={() => <Card code="" provider="" message="Acrescente algumas paragens!" />}
         viewabilityConfig={viewConfigRef.current}
       />
       <MapView
@@ -99,18 +81,12 @@ export default function App() {
         showsCompass
         ref={mapRef}
         toolbarEnabled={false}
-        compassOffset={{ x: -Dimensions.get("window").width * 0.86, y: 0 }}
+        compassOffset={{ x: -Dimensions.get('window').width * 0.86, y: 0 }}
       >
         {stops.map((stop) => {
-          const { location } = stop;
-          if (location)
-            return (
-              <Marker
-                key={JSON.stringify(location)}
-                coordinate={location}
-                title={getName(stop)}
-              />
-            );
+          const { location: loc } = stop;
+          if (loc) return <Marker key={JSON.stringify(loc)} coordinate={loc} title={getName(stop)} />;
+          return undefined;
         })}
       </MapView>
     </View>
@@ -123,38 +99,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     zIndex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
     zIndex: 1,
   },
   list: {
-    position: "absolute",
-    display: "flex",
+    position: 'absolute',
+    display: 'flex',
     zIndex: 2,
-    bottom: "5%",
-    width: "100%",
-    height: "40%",
-    flexDirection: "row",
+    bottom: '5%',
+    width: '100%',
+    height: '40%',
+    flexDirection: 'row',
   },
   header: {
     backgroundColor: defaultColor,
     height: `${headerSize + 0.1}%`,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   content: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     height: `${100 - headerSize}%`,
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },

@@ -1,3 +1,3 @@
-import CardLine from "./CardLine";
+import CardLine from './CardLine';
 
 export default CardLine;

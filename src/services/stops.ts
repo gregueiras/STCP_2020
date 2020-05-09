@@ -5,14 +5,14 @@ export interface Line {
   remainingTime: string;
 }
 
-const TIMES_URL = "https://stcp-backend.herokuapp.com/stops";
+const TIMES_URL = 'https://stcp-backend.herokuapp.com/stops';
 
 export async function getTimes(provider: string, code: string) {
   const response = await fetch(TIMES_URL, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       provider,

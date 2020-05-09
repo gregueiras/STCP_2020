@@ -1,8 +1,11 @@
-import * as Sentry from "sentry-expo";
-import { StopLocation, Stop } from "../redux/stops/types";
+import * as Sentry from 'sentry-expo';
+
+import { StopLocation, Stop } from '../redux/stops/types';
+import { TomTomAPI } from './tomtom';
+
 export const PROVIDERS = {
-  STCP: "STCP",
-  METRO: "Metro do Porto",
+  STCP: 'STCP',
+  METRO: 'Metro do Porto',
 };
 
 interface UserLocation {
@@ -17,10 +20,7 @@ export async function fetchURL(searchUrl: string) {
   return text;
 }
 
-export function distance(
-  { latitude, longitude }: StopLocation,
-  { x, y }: UserLocation
-) {
+export function distance({ latitude, longitude }: StopLocation, { x, y }: UserLocation) {
   const toRadians = (number: number) => {
     return (number * Math.PI) / 180;
   };
@@ -31,23 +31,15 @@ export function distance(
   const Δφ = toRadians(x - latitude);
   const Δλ = toRadians(y - longitude);
 
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return R * c;
 }
 
-export async function findPlace(
-  query: string,
-  autocomplete: boolean,
-  maxResults: number
-) {
+export async function findPlace(query: string, autocomplete: boolean, maxResults: number) {
   const apiUrl =
-    `https://api.tomtom.com/search/2/poiSearch/${encodeURIComponent(
-      query
-    )}.JSON?key=` +
+    `https://api.tomtom.com/search/2/poiSearch/${encodeURIComponent(query)}.JSON?key=` +
     `3NzwzZQK1ZXxP1DJE7q1ihbEOQ9GogJM` +
     `&typeahead=${autocomplete}&limit=${maxResults}&countrySet=PT` +
     `&lat=` +
@@ -59,10 +51,10 @@ export async function findPlace(
     .then((resp) => resp.json())
     .then((resp) => {
       try {
-        const { results } = resp;
+        const { results } = resp as TomTomAPI;
 
-        return results.map((val: any) => {
-          if ("poi" in val) {
+        return results.map((val) => {
+          if (val.poi) {
             return {
               name: val.poi.name,
               address: val.address.freeformAddress,
@@ -70,6 +62,7 @@ export async function findPlace(
               lon: val.position.lon,
             };
           }
+
           return {
             name: val.address.freeformAddress,
             address: val.address.freeformAddress,
@@ -105,24 +98,15 @@ export async function loadLocation({ provider, code }: Stop) {
       coords.longitude = lon;
     } catch (error) {
       Sentry.captureException(error);
-      console.error(error);
     }
   }
 
   return coords;
 }
 
-export async function validateStop(
-  provider: string,
-  stopToAdd: string,
-  stops: Stop[]
-) {
-  if (
-    stops.filter(
-      ({ code, provider: p }) => code === stopToAdd && p === provider
-    ).length !== 0
-  ) {
-    throw new Error("Repeated Stop");
+export async function validateStop(provider: string, stopToAdd: string, stops: Stop[]) {
+  if (stops.filter(({ code, provider: p }) => code === stopToAdd && p === provider).length !== 0) {
+    throw new Error('Repeated Stop');
   }
   const location = await loadLocation({ provider, code: stopToAdd });
 

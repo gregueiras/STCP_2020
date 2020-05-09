@@ -1,12 +1,7 @@
-import React, { useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-  LayoutChangeEvent,
-} from "react-native";
-import { defaultColor } from "../../../constants";
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+
+import { defaultColor } from '../../../constants';
 
 interface TitleProps {
   text: string;
@@ -34,8 +29,8 @@ export default Title;
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Dimensions.get("screen").width * 0.05,
-    marginLeft: Dimensions.get("screen").width * 0.05,
+    marginTop: Dimensions.get('screen').width * 0.05,
+    marginLeft: Dimensions.get('screen').width * 0.05,
   },
   titleLine: {
     borderBottomColor: defaultColor,
@@ -43,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColor,
   },
   title: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: 'Montserrat-Medium',
     fontSize: 20,
   },
 });

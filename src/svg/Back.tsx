@@ -1,7 +1,9 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+/* eslint-disable react/jsx-props-no-spreading */
+import * as React from 'react';
+import { ViewProps } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
-function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
+function SvgComponent(props: React.SVGProps<SVGSVGElement> & ViewProps) {
   return (
     // @ts-ignore
     <Svg width={600} height={600} viewBox="0 0 600 600" {...props}>

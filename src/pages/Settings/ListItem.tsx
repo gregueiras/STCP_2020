@@ -1,11 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { View, Text, StyleSheet, Platform, Dimensions } from "react-native";
-import { Stop } from "../../redux/stops/types";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { useDispatch } from "react-redux";
-import { removeStop } from "../../redux/stops/actions";
-import { getName } from "../../services/aux";
+import { Ionicons } from '@expo/vector-icons';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View, Text, StyleSheet, Platform, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+
+import { removeStop } from '../../redux/stops/actions';
+import { Stop } from '../../redux/stops/types';
+import { getName } from '../../services/aux';
 
 interface ListItemProps {
   stop: Stop;
@@ -27,20 +28,10 @@ const ListItem = ({ stop, setSelectedStop }: ListItemProps) => {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => setSelectedStop(stop)}>
-          <Ionicons
-            name={`${Platform.OS === "ios" ? "ios" : "md"}-create`}
-            size={32}
-            color="black"
-          />
+          <Ionicons name={`${Platform.OS === 'ios' ? 'ios' : 'md'}-create`} size={32} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(removeStop({ code, provider }))}
-        >
-          <Ionicons
-            name={`${Platform.OS === "ios" ? "ios" : "md"}-trash`}
-            size={32}
-            color="black"
-          />
+        <TouchableOpacity onPress={() => dispatch(removeStop({ code, provider }))}>
+          <Ionicons name={`${Platform.OS === 'ios' ? 'ios' : 'md'}-trash`} size={32} color="black" />
         </TouchableOpacity>
       </View>
     </View>
@@ -49,20 +40,20 @@ const ListItem = ({ stop, setSelectedStop }: ListItemProps) => {
 
 const styles = StyleSheet.create({
   item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: Dimensions.get("screen").width * 0.03,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: Dimensions.get('screen').width * 0.03,
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: Dimensions.get("screen").width * 0.15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: Dimensions.get('screen').width * 0.15,
   },
   text: {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontSize: 16,
-    maxWidth: Dimensions.get("screen").width * 0.6,
+    maxWidth: Dimensions.get('screen').width * 0.6,
   },
 });
 

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { defaultColor } from "../../constants";
-import CardHeader from "./CardHeader";
-import CardContent from "./CardContent";
-import { Stop } from "../../redux/stops/types";
-import { getTimes, Line } from "../../services/stops";
+import React, { useState } from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
+
+import { defaultColor } from '../../constants';
+import { Stop } from '../../redux/stops/types';
+import { getTimes, Line } from '../../services/stops';
+import CardContent from './CardContent';
+import CardHeader from './CardHeader';
 
 interface CardProps extends Stop {
   message?: string;
@@ -36,19 +37,11 @@ function useApi(action: () => Promise<Line[]>, initial: Line[]) {
 }
 
 const Card = ({ code, provider, customName, message }: CardProps) => {
-  const { lines, refresh, loading } = useApi(
-    () => getTimes(code, provider),
-    []
-  );
+  const { lines, refresh, loading } = useApi(() => getTimes(code, provider), []);
 
   return (
     <View style={styles.container}>
-      <CardHeader
-        code={code}
-        provider={provider}
-        customName={customName}
-        containerStyle={styles.header}
-      />
+      <CardHeader code={code} provider={provider} customName={customName} containerStyle={styles.header} />
       <CardContent
         containerStyle={styles.content}
         message={message}
@@ -64,24 +57,24 @@ const headerSize = 20;
 
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get("screen").width * 0.75,
-    marginRight: Dimensions.get("screen").width * 0.125,
-    marginLeft: Dimensions.get("screen").width * 0.125,
+    width: Dimensions.get('screen').width * 0.75,
+    marginRight: Dimensions.get('screen').width * 0.125,
+    marginLeft: Dimensions.get('screen').width * 0.125,
   },
   header: {
     backgroundColor: defaultColor,
     height: `${headerSize + 0.1}%`,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   content: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     height: `${100 - headerSize}%`,
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },

@@ -1,11 +1,12 @@
-import React, { SetStateAction, Dispatch, useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions, TextInput } from "react-native";
-import Modal from "react-native-modal";
-import Title from "../../../components/common/Title";
-import Button from "../../../components/common/Button";
-import { useDispatch } from "react-redux";
-import { editStop } from "../../../redux/stops/actions";
-import { Stop } from "../../../redux/stops/types";
+import React, { SetStateAction, Dispatch, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Dimensions, TextInput } from 'react-native';
+import Modal from 'react-native-modal';
+import { useDispatch } from 'react-redux';
+
+import Button from '../../../components/common/Button';
+import Title from '../../../components/common/Title';
+import { editStop } from '../../../redux/stops/actions';
+import { Stop } from '../../../redux/stops/types';
 
 interface NewStopProps {
   selectedStop?: Stop;
@@ -17,7 +18,7 @@ const NewStop = ({ selectedStop, setSelectedStop }: NewStopProps) => {
   const dispatch = useDispatch();
 
   function reset() {
-    setCustomName("");
+    setCustomName('');
     setSelectedStop(undefined);
   }
 
@@ -40,11 +41,7 @@ const NewStop = ({ selectedStop, setSelectedStop }: NewStopProps) => {
         <View style={styles.content}>
           <View>
             <Text style={styles.label}>Nome Personalizado</Text>
-            <TextInput
-              value={customName}
-              onChangeText={setCustomName}
-              style={styles.input}
-            />
+            <TextInput value={customName} onChangeText={setCustomName} style={styles.input} />
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -58,7 +55,7 @@ const NewStop = ({ selectedStop, setSelectedStop }: NewStopProps) => {
                     code: selectedStop.code,
                     provider: selectedStop.provider,
                     customName,
-                  })
+                  }),
                 );
               reset();
             }}
@@ -73,20 +70,20 @@ export default NewStop;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFFFF",
-    height: "50%",
+    backgroundColor: '#FFFFFF',
+    height: '50%',
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: Dimensions.get("screen").width * 0.05,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginBottom: Dimensions.get('screen').width * 0.05,
   },
   content: {
     flexGrow: 1,
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
   },
   input: {
-    borderColor: "#000000",
+    borderColor: '#000000',
     borderWidth: 1.5,
     borderRadius: 5,
     marginHorizontal: 5,
@@ -94,7 +91,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginHorizontal: 5,
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     marginBottom: 5,
   },
 });

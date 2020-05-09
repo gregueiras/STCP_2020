@@ -5,10 +5,9 @@ import {
   AddStopAction,
   EditStopAction,
   RemoveStopAction,
-  Stop,
   StopActionTypes,
   StopsState,
-} from "./types";
+} from './types';
 
 export const initialState: StopsState = [];
 
@@ -27,17 +26,14 @@ export function stopsReducer(state = initialState, action: StopActionTypes) {
 
         if (code === stop.code && provider === stop.provider) {
           return stop;
-        } else {
-          return st;
         }
+        return st;
       });
     }
 
     case REMOVE_STOP: {
       const { payload: stop } = action as RemoveStopAction;
-      return state.filter(
-        ({ code, provider }) => code !== stop.code || provider !== stop.provider
-      );
+      return state.filter(({ code, provider }) => code !== stop.code || provider !== stop.provider);
     }
 
     default:

@@ -1,6 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { getLineColor } from "../../../constants";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { getLineColor } from '../../../constants';
 
 interface LineBadgeProps {
   line: string;
@@ -18,11 +19,11 @@ const LineBadge = ({ line }: LineBadgeProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: "1%",
+    padding: '1%',
   },
   badge: {
-    color: "#FFFFFF",
-    fontFamily: "Montserrat-Bold",
+    color: '#FFFFFF',
+    fontFamily: 'Montserrat-Bold',
   },
 });
 

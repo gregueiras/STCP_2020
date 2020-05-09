@@ -1,23 +1,14 @@
-import {
-  ADD_STOP,
-  EDIT_STOP,
-  REMOVE_STOP,
-  AddStopAction,
-  EditStopAction,
-  RemoveStopAction,
-  Stop,
-} from "./types";
+import { Dispatch } from 'redux';
+import * as Sentry from 'sentry-expo';
 
-import { loadLocation, PROVIDERS } from "../../services/location";
-import { Dispatch } from "redux";
-import * as Sentry from "sentry-expo";
+import { loadLocation, PROVIDERS } from '../../services/location';
+import { ADD_STOP, EDIT_STOP, REMOVE_STOP, AddStopAction, EditStopAction, RemoveStopAction, Stop } from './types';
 
 function formatProvider(provider: string, code?: string) {
   if (provider.toUpperCase().trim() === PROVIDERS.STCP) {
     return code?.toUpperCase().trim() ?? provider.toUpperCase().trim();
-  } else {
-    return code?.trim() ?? provider.trim();
   }
+  return code?.trim() ?? provider.trim();
 }
 
 export function addStop(stop: Stop): (dispatch: Dispatch) => void {
@@ -33,7 +24,6 @@ export function addStop(stop: Stop): (dispatch: Dispatch) => void {
       dispatch(addStopAux({ ...formattedStop, location }));
     } catch (error) {
       Sentry.captureException(error);
-      return console.error(error);
     }
   };
 }
@@ -60,5 +50,5 @@ export function removeStop(stop: Stop): RemoveStopAction {
 }
 
 export function eraseAll() {
-  return { type: "ERASE_ALL" };
+  return { type: 'ERASE_ALL' };
 }
