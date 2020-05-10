@@ -8,10 +8,22 @@ export interface Line {
   remainingTime: string;
 }
 
-const TIMES_URL = 'https://stcp-backend.herokuapp.com/stops';
+export interface SubscriptionRequest {
+  provider: string;
+  code: string;
+  line: string;
+  token: string;
+}
 
+export interface UnsubscriptionRequest {
+  provider: string;
+  code: string;
+  token: string;
+}
+
+const BASE_URL = 'https://stcp-backend.herokuapp.com';
 export async function getTimes(provider: string, code: string): Promise<Line[]> {
-  const response = await axios.post(TIMES_URL, {
+  const response = await axios.post(`${BASE_URL}/stops`, {
     provider,
     code,
   });
@@ -23,4 +35,21 @@ export async function getTimes(provider: string, code: string): Promise<Line[]> 
     Sentry.captureException(error);
     return [];
   }
+}
+
+export async function subscribe({ token, code, provider, line }: SubscriptionRequest) {
+  await axios.post(`${BASE_URL}/subscribe`, {
+    provider,
+    code,
+    token,
+    line,
+  });
+}
+
+export async function unsubscribe({ token, code, provider }: UnsubscriptionRequest) {
+  await axios.post(`${BASE_URL}/unsubscribe`, {
+    provider,
+    code,
+    token,
+  });
 }

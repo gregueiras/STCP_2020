@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ViewStyle, StyleSheet, FlatList } from 'react-native';
+import { Text, View, ViewStyle, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 import { Line } from '../../services/stops';
 import CardLine from './CardLine';
@@ -10,9 +10,10 @@ interface CardContentProps {
   lines: Line[];
   refresh: () => void;
   loading: boolean;
+  onPress: (stop: Line) => void;
 }
 
-const CardContent = ({ containerStyle, message, lines, refresh, loading }: CardContentProps) => {
+const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress }: CardContentProps) => {
   return (
     <View style={containerStyle}>
       {message ? (
@@ -25,7 +26,11 @@ const CardContent = ({ containerStyle, message, lines, refresh, loading }: CardC
           data={lines}
           refreshing={loading}
           onRefresh={refresh}
-          renderItem={({ item }) => <CardLine lineStop={item} />}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => onPress(item)}>
+              <CardLine lineStop={item} />
+            </TouchableOpacity>
+          )}
           keyExtractor={({ remainingTime, line, destination, time }) =>
             `${remainingTime}_${line}_${destination}_${time}`
           }

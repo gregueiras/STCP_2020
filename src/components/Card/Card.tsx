@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-unused-expressions */
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
+import Toast from 'react-native-root-toast';
 
 import { defaultColor } from '../../constants';
 import { Stop } from '../../redux/stops/types';
-import { getTimes, Line } from '../../services/stops';
+import { getTimes, Line, subscribe, unsubscribe } from '../../services/stops';
 import CardContent from './CardContent';
 import CardHeader from './CardHeader';
 
@@ -44,6 +48,32 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
     if (provider && code) refresh();
   }, []);
 
+  const onSubscribe = async ({ line }: Line) => {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      return;
+    }
+
+    const token = await Notifications.getExpoPushTokenAsync();
+
+    await subscribe({ token, code, provider, line });
+    // toastRef.current?.show(`Subscribed to ${line} in ${code}`, 300);
+    Toast.show(`Subscreveu o ${line} em ${code}`);
+  };
+
+  const onUnsubscribe = async () => {
+    const token = await Notifications.getExpoPushTokenAsync();
+    await unsubscribe({ code, provider, token });
+
+    // toastRef.current?.show(`Unsubscribed to stop ${code}`, 300);
+    Toast.show(`Cancelou todas as subscriçõesm em ${code}`);
+  };
+
   return (
     <View style={styles.container}>
       <CardHeader
@@ -51,7 +81,7 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
         provider={provider}
         customName={customName}
         containerStyle={styles.header}
-        refresh={refresh}
+        onPress={onUnsubscribe}
       />
       <CardContent
         containerStyle={styles.content}
@@ -59,6 +89,7 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
         lines={lines}
         loading={loading}
         refresh={refresh}
+        onPress={onSubscribe}
       />
     </View>
   );

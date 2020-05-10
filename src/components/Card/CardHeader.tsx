@@ -7,13 +7,13 @@ import { getName } from '../../services/aux';
 
 interface CardHeaderProps extends Stop {
   containerStyle: ViewStyle;
-  refresh: () => void;
+  onPress: () => void;
 }
 
-const CardHeader = ({ containerStyle, code, provider, customName, refresh }: CardHeaderProps) => {
+const CardHeader = ({ containerStyle, code, provider, customName, onPress }: CardHeaderProps) => {
   return (
     <View style={containerStyle}>
-      <TouchableOpacity onPress={refresh}>
+      <TouchableOpacity onPress={onPress}>
         <Text style={styles.headerText}>{getName({ code, provider, customName })}</Text>
       </TouchableOpacity>
     </View>
