@@ -41,7 +41,7 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
   const { lines, refresh, loading } = useApi(() => getTimes(provider, code), []);
 
   useEffect(() => {
-    refresh();
+    if (provider && code) refresh();
   }, []);
 
   return (

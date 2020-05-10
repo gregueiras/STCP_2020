@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +17,21 @@ const Settings = () => {
   const { stops } = useSelector((state: RootState) => state);
   const [openNewStop, setOpenNewStop] = useState(false);
   const [selectedStop, setSelectedStop] = useState<Stop | undefined>();
+  const [locationPermission, setLocationPermission] = useState<boolean | undefined>();
+
+  useEffect(() => {
+    async function getPermission() {
+      const { status } = await Permissions.getAsync(Permissions.LOCATION);
+      setLocationPermission(status === 'granted');
+    }
+
+    getPermission();
+  }, []);
+
+  const askPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    setLocationPermission(status === 'granted');
+  };
 
   return (
     <View style={styles.page}>
@@ -27,12 +44,24 @@ const Settings = () => {
             data={stops}
             renderItem={({ item }) => <ListItem stop={item} setSelectedStop={setSelectedStop} />}
             keyExtractor={({ code, provider }) => `${code}_${provider}`}
-            ListEmptyComponent={() => <Text style={styles.emptyMessage}>Acrescente algumas paragens!</Text>}
+            ListEmptyComponent={() => (
+              <Text style={{ ...styles.text, ...styles.emptyMessage }}>Acrescente algumas paragens!</Text>
+            )}
           />
           <View style={styles.button}>
             <Button text="Nova Paragem" onPress={() => setOpenNewStop(true)} />
           </View>
         </View>
+        {locationPermission !== undefined && (
+          <View style={styles.perm}>
+            <Text style={styles.text}>Permissão de Localização</Text>
+            {locationPermission ? (
+              <Ionicons name="ios-checkmark" size={34} color="black" />
+            ) : (
+              <Ionicons onPress={() => askPermission()} name="ios-close" size={34} color="black" />
+            )}
+          </View>
+        )}
       </View>
       <NewStop open={openNewStop} setOpen={setOpenNewStop} />
       <EditStop selectedStop={selectedStop} setSelectedStop={setSelectedStop} />
@@ -56,11 +85,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
   },
-  emptyMessage: {
+  text: {
     fontFamily: 'Montserrat',
     fontSize: 16,
     color: '#555',
     alignSelf: 'center',
+  },
+  emptyMessage: {
     marginTop: Dimensions.get('window').width * 0.05,
   },
   list: {
@@ -73,7 +104,14 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 'auto',
     marginTop: 'auto',
-    marginRight: 20,
-    marginBottom: 20,
+    marginRight: Dimensions.get('window').width * 0.05,
+    marginBottom: Dimensions.get('window').height * 0.02,
+  },
+  perm: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: Dimensions.get('window').width * 0.05,
+    marginBottom: Dimensions.get('window').height * 0.02,
   },
 });
