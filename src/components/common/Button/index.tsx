@@ -8,16 +8,26 @@ interface ButtonProps extends TouchableOpacityProps {
   text: string;
   onPress: () => void;
   variant?: 'secondary';
+  disabled?: boolean;
 }
 
-const Button = ({ text, onPress, variant, ...rest }: ButtonProps) => {
+const Button = ({ text, onPress, variant, disabled = false, ...rest }: ButtonProps) => {
+  const computeStyle = () => {
+    if (disabled) {
+      return [styles.disabledButton, styles.disabledText];
+    }
+    if (variant === 'secondary') {
+      return [styles.secondaryButton, styles.secondaryText];
+    }
+
+    return [styles.button, styles.text];
+  };
+
+  const [containerStyle, textStyle] = computeStyle();
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={variant === 'secondary' ? styles.secondaryButton : styles.button}
-      {...rest}
-    >
-      <Text style={variant === 'secondary' ? styles.secondaryText : styles.text}>{text}</Text>
+    <TouchableOpacity onPress={onPress} disabled={disabled} style={containerStyle} {...rest}>
+      <Text style={textStyle}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -48,6 +58,10 @@ const styles = StyleSheet.create({
     borderColor: defaultColor,
     borderWidth: 1.5,
   },
+  disabledButton: {
+    ...buttonStyle,
+    backgroundColor: '#EEEEEE',
+  },
   text: {
     ...textStyle,
     color: 'white',
@@ -55,5 +69,9 @@ const styles = StyleSheet.create({
   secondaryText: {
     ...textStyle,
     color: defaultColor,
+  },
+  disabledText: {
+    ...textStyle,
+    color: '#c0c0c0',
   },
 });

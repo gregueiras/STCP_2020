@@ -1,3 +1,4 @@
+import Toast from 'react-native-root-toast';
 import { Dispatch } from 'redux';
 import * as Sentry from 'sentry-expo';
 
@@ -23,6 +24,7 @@ export function addStop(stop: Stop): (dispatch: Dispatch) => void {
       const location = await loadLocation(formattedStop);
       dispatch(addStopAux({ ...formattedStop, location }));
     } catch (error) {
+      Toast.show(`Paragem inválida`);
       Sentry.captureException(error);
     }
   };

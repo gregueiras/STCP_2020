@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import Button from '../../../components/common/Button';
 import Title from '../../../components/common/Title';
+import { defaultColor } from '../../../constants';
 import { addStop } from '../../../redux/stops/actions';
 
 interface NewStopProps {
@@ -46,13 +47,22 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
           </View> */}
           <View>
             <Text style={styles.label}>Paragem</Text>
-            <TextInput value={stop} onChangeText={setStop} style={styles.input} />
+            <TextInput
+              value={stop}
+              onChangeText={setStop}
+              style={styles.input}
+              onSubmitEditing={() => {
+                dispatch(addStop({ code: stop, provider }));
+                reset();
+              }}
+            />
           </View>
         </View>
         <View style={styles.buttonContainer}>
           <Button text="Cancelar" onPress={() => reset()} variant="secondary" />
           <Button
             text="Confirmar"
+            disabled={stop === ''}
             onPress={() => {
               dispatch(addStop({ code: stop, provider }));
               reset();
@@ -81,11 +91,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   input: {
-    borderColor: '#000000',
+    borderColor: defaultColor,
     borderWidth: 1.5,
     borderRadius: 5,
     marginHorizontal: 5,
     height: 40,
+    paddingLeft: 20,
   },
   label: {
     marginHorizontal: 5,
