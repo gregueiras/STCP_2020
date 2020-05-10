@@ -1,16 +1,16 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, View, Dimensions, FlatList, ViewToken } from 'react-native';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 import Card from '../components/Card/Card';
 import { defaultColor } from '../constants';
-import { Stop } from '../redux/stops/types';
+import { Stop, StopLocation } from '../redux/stops/types';
 import { getName } from '../services/aux';
 import { UserLocation, distance } from '../services/location';
 import sharedStyles from './styles';
@@ -35,25 +35,24 @@ export default function App() {
   const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
   const [userLocation, setUserLocation] = useState<UserLocation>();
+  const [isInFirstItem, setIsInFirstItem] = useState(true);
 
   useEffect(() => {
     watchLocation();
   }, []);
 
   const mapRef = useRef<MapView>(null);
+  const listRef = useRef<FlatList>(null);
 
   const onViewRef = useRef(({ viewableItems }: OnView) => {
     if (viewableItems.length === 0) return;
 
+    setIsInFirstItem(viewableItems[0].index === 0);
+
     const { location: loc } = viewableItems[0].item as Stop;
 
     if (loc) {
-      const offsetLocation = {
-        ...loc,
-        latitude: loc.latitude - 0.0015,
-      };
-
-      const region = { ...offsetLocation, ...defaultDelta };
+      const region = calcRegion(loc);
       // eslint-disable-next-line no-unused-expressions
       mapRef.current?.animateToRegion(region);
     }
@@ -94,6 +93,16 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={sharedStyles.buttonLeft}
+        onPress={() => {
+          isInFirstItem
+            ? mapRef.current?.animateToRegion(calcRegion(sortedList[0]?.location ?? userLocation ?? defaultState))
+            : listRef.current?.scrollToIndex({ index: 0 });
+        }}
+      >
+        <MaterialIcons name="my-location" size={32} color="black" />
+      </TouchableOpacity>
       <TouchableOpacity style={sharedStyles.buttonRight} onPress={() => navigation.navigate('Settings')}>
         <Ionicons name="ios-settings" size={32} color="black" />
       </TouchableOpacity>
@@ -101,6 +110,7 @@ export default function App() {
         showsHorizontalScrollIndicator={false}
         horizontal
         style={styles.list}
+        ref={listRef}
         data={sortedList}
         renderItem={({ item }) => <Card code={item.code} provider={item.provider} customName={item.customName} />}
         keyExtractor={({ code, provider }) => `${code}_${provider}`}
@@ -110,7 +120,7 @@ export default function App() {
       />
       <MapView
         style={styles.mapStyle}
-        region={defaultState}
+        region={calcRegion(sortedList.length === 0 ? userLocation : sortedList[0].location)}
         showsUserLocation
         showsMyLocationButton
         showsCompass
@@ -170,3 +180,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
 });
+
+function calcRegion(loc: StopLocation | undefined) {
+  if (!loc) return defaultState;
+
+  const offsetLocation = {
+    ...loc,
+    latitude: loc.latitude - 0.0015,
+  };
+
+  const region = { ...offsetLocation, ...defaultDelta };
+  return region;
+}
