@@ -1,3 +1,5 @@
+import * as Sentry from 'sentry-expo'
+
 export interface Line {
   line: string;
   destination: string;
@@ -20,6 +22,11 @@ export async function getTimes(provider: string, code: string) {
     }),
   });
 
-  const times = response.json();
-  return times;
+  try {
+
+      const times = response.json();
+      return times;
+    } catch (error) {
+        Sentry.captureException(error);
+    }
 }

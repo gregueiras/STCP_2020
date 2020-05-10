@@ -1,5 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { AppLoading, SplashScreen, Constants, Font } from 'expo';
+import { AppLoading, SplashScreen } from 'expo';
+import Constants from 'expo-constants'
+import {loadAsync} from 'expo-font'
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -18,7 +20,7 @@ export default function MyApp() {
 
   useEffect(() => {
     async function loadFonts() {
-      await Font.loadAsync({
+      await loadAsync({
         // Load a font `Montserrat` from a static resource
 
         Montserrat: {

@@ -28,6 +28,7 @@ function useApi(action: () => Promise<Line[]>, initial: Line[]) {
       loading: true,
     });
     const res = await action();
+
     setData({
       value: res,
       loading: false,
@@ -38,6 +39,7 @@ function useApi(action: () => Promise<Line[]>, initial: Line[]) {
 
 const Card = ({ code, provider, customName, message }: CardProps) => {
   const { lines, refresh, loading } = useApi(() => getTimes(code, provider), []);
+
 
   return (
     <View style={styles.container}>
