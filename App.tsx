@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { AppLoading, SplashScreen } from 'expo';
-import Constants from 'expo-constants'
-import {loadAsync} from 'expo-font'
+import Constants from 'expo-constants';
+import { loadAsync } from 'expo-font';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import { Line } from '../../../services/stops';
 import Alarm from './Alarm';
@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginRight: '3%',
-    marginLeft: '3%',
+    marginHorizontal: Dimensions.get('window').width * 0.04,
     alignItems: 'center',
   },
   text: {

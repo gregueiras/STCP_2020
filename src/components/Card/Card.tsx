@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 
 import { defaultColor } from '../../constants';
@@ -38,12 +38,21 @@ function useApi(action: () => Promise<Line[]>, initial: Line[]) {
 }
 
 const Card = ({ code, provider, customName, message }: CardProps) => {
-  const { lines, refresh, loading } = useApi(() => getTimes(code, provider), []);
+  const { lines, refresh, loading } = useApi(() => getTimes(provider, code), []);
 
+  useEffect(() => {
+    refresh();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <CardHeader code={code} provider={provider} customName={customName} containerStyle={styles.header} />
+      <CardHeader
+        code={code}
+        provider={provider}
+        customName={customName}
+        containerStyle={styles.header}
+        refresh={refresh}
+      />
       <CardContent
         containerStyle={styles.content}
         message={message}
@@ -75,8 +84,6 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: '#FFFFFF',
     height: `${100 - headerSize}%`,
-    width: '100%',
-    alignItems: 'center',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
