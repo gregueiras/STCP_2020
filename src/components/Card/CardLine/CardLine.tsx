@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import { Line } from '../../../services/stops';
-import Alarm from './Alarm';
 import Badge from './Badge';
 
 interface CardLineProps {
@@ -19,7 +18,6 @@ const CardLine = ({ lineStop }: CardLineProps) => {
         <Text style={styles.text}>{destination}</Text>
         <Text style={styles.text}>{remainingTime || time}</Text>
       </View>
-      <Alarm active={false} />
     </View>
   );
 };

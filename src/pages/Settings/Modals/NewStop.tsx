@@ -24,6 +24,13 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
     setOpen(false);
   }
 
+  function triggerAdd() {
+    if (stop === '') return;
+
+    dispatch(addStop({ code: stop, provider }));
+    reset();
+  }
+
   return (
     <Modal
       avoidKeyboard
@@ -47,27 +54,12 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
           </View> */}
           <View>
             <Text style={styles.label}>Paragem</Text>
-            <TextInput
-              value={stop}
-              onChangeText={setStop}
-              style={styles.input}
-              onSubmitEditing={() => {
-                dispatch(addStop({ code: stop, provider }));
-                reset();
-              }}
-            />
+            <TextInput value={stop} onChangeText={setStop} style={styles.input} onSubmitEditing={() => triggerAdd()} />
           </View>
         </View>
         <View style={styles.buttonContainer}>
           <Button text="Cancelar" onPress={() => reset()} variant="secondary" />
-          <Button
-            text="Confirmar"
-            disabled={stop === ''}
-            onPress={() => {
-              dispatch(addStop({ code: stop, provider }));
-              reset();
-            }}
-          />
+          <Button text="Confirmar" disabled={stop === ''} onPress={() => triggerAdd()} />
         </View>
       </View>
     </Modal>
@@ -76,7 +68,7 @@ const NewStop = ({ open, setOpen }: NewStopProps) => {
 
 export default NewStop;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     height: '50%',
@@ -94,13 +86,13 @@ const styles = StyleSheet.create({
     borderColor: defaultColor,
     borderWidth: 1.5,
     borderRadius: 5,
-    marginHorizontal: 5,
+    marginHorizontal: Dimensions.get('screen').width * 0.03,
     height: 40,
-    paddingLeft: 20,
+    paddingLeft: Dimensions.get('screen').width * 0.03,
   },
   label: {
-    marginHorizontal: 5,
-    fontFamily: 'Montserrat',
+    marginHorizontal: Dimensions.get('screen').width * 0.03,
+    fontFamily: 'Montserrat-Medium',
     marginBottom: 5,
   },
 });

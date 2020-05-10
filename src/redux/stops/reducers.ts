@@ -25,7 +25,7 @@ export function stopsReducer(state = initialState, action: StopActionTypes) {
         const { code, provider } = st;
 
         if (code === stop.code && provider === stop.provider) {
-          return stop;
+          return { ...st, ...stop };
         }
         return st;
       });
