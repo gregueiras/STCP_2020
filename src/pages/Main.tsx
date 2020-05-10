@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useRef, useState } from 'react';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, View, Dimensions, FlatList, ViewToken } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { useSelector } from 'react-redux';
@@ -10,6 +12,7 @@ import Card from '../components/Card/Card';
 import { defaultColor } from '../constants';
 import { Stop } from '../redux/stops/types';
 import { getName } from '../services/aux';
+import { UserLocation, distance } from '../services/location';
 import sharedStyles from './styles';
 
 interface OnView {
@@ -31,7 +34,12 @@ const defaultState = {
 export default function App() {
   const navigation = useNavigation();
   const { stops } = useSelector((state: RootState) => state);
-  const [location, setLocation] = useState<Region | undefined>(defaultState);
+  const [userLocation, setUserLocation] = useState<UserLocation>();
+
+  useEffect(() => {
+    watchLocation();
+  }, []);
+
   const mapRef = useRef<MapView>(null);
 
   const onViewRef = useRef(({ viewableItems }: OnView) => {
@@ -48,14 +56,41 @@ export default function App() {
       const region = { ...offsetLocation, ...defaultDelta };
       // eslint-disable-next-line no-unused-expressions
       mapRef.current?.animateToRegion(region);
-    } else {
-      setLocation(undefined);
     }
   });
   const viewConfigRef = useRef({
     itemVisiblePercentThreshold: 50,
     minimumViewTime: 200,
   });
+
+  const watchLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      Location.watchPositionAsync(
+        { accuracy: Location.Accuracy.Balanced, timeInterval: 1000 * 5, distanceInterval: 30 },
+        (position) => {
+          const { coords } = position;
+          const { latitude, longitude } = coords;
+
+          setUserLocation({ latitude, longitude });
+        },
+      );
+    }
+  };
+
+  const sortedList = useMemo(() => {
+    if (userLocation) {
+      const sorted = stops.sort(({ location: cA }, { location: cB }) => {
+        if (cA && cB) {
+          return distance(cA, userLocation) - distance(cB, userLocation);
+        }
+        return 1;
+      });
+      return sorted;
+    }
+
+    return stops;
+  }, [stops, userLocation]);
 
   return (
     <View style={styles.container}>
@@ -66,7 +101,7 @@ export default function App() {
         showsHorizontalScrollIndicator={false}
         horizontal
         style={styles.list}
-        data={stops}
+        data={sortedList}
         renderItem={({ item }) => <Card code={item.code} provider={item.provider} customName={item.customName} />}
         keyExtractor={({ code, provider }) => `${code}_${provider}`}
         onViewableItemsChanged={onViewRef.current}
@@ -75,7 +110,7 @@ export default function App() {
       />
       <MapView
         style={styles.mapStyle}
-        region={location ?? defaultState}
+        region={defaultState}
         showsUserLocation
         showsMyLocationButton
         showsCompass

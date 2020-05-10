@@ -8,9 +8,9 @@ export const PROVIDERS = {
   METRO: 'Metro do Porto',
 };
 
-interface UserLocation {
-  x: number;
-  y: number;
+export interface UserLocation {
+  latitude: number;
+  longitude: number;
 }
 
 export async function fetchURL(searchUrl: string) {
@@ -20,16 +20,16 @@ export async function fetchURL(searchUrl: string) {
   return text;
 }
 
-export function distance({ latitude, longitude }: StopLocation, { x, y }: UserLocation) {
+export function distance({ latitude, longitude }: StopLocation, { latitude: lat, longitude: lon }: UserLocation) {
   const toRadians = (number: number) => {
     return (number * Math.PI) / 180;
   };
 
   const R = 6371e3; // metres
   const φ1 = toRadians(latitude);
-  const φ2 = toRadians(x);
-  const Δφ = toRadians(x - latitude);
-  const Δλ = toRadians(y - longitude);
+  const φ2 = toRadians(lat);
+  const Δφ = toRadians(lat - latitude);
+  const Δλ = toRadians(lon - longitude);
 
   const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
