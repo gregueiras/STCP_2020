@@ -31,6 +31,7 @@ jobs:
         SENTRY_PROJECT: ${{secrets.SENTRY_PROJECT}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
       run: |
+        echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
         sudo yarn global add expo-cli
         expo login -u "$USERNAME" -p "$PASSWORD"
         yarn
