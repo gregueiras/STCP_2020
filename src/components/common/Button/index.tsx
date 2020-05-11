@@ -1,6 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, ViewStyle, TextStyle, TouchableOpacityProps } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacityProps,
+  Dimensions,
+} from 'react-native';
 
 import { defaultColor } from '../../../constants';
 
@@ -36,7 +44,7 @@ export default Button;
 
 const buttonStyle: ViewStyle = {
   borderRadius: 5,
-  width: 123,
+  width: 120 + Dimensions.get('screen').fontScale * 10,
   height: 35,
   justifyContent: 'center',
   alignItems: 'center',

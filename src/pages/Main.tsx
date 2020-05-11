@@ -122,8 +122,8 @@ export default function App() {
         style={styles.mapStyle}
         region={calcRegion(sortedList.length === 0 ? userLocation : sortedList[0].location)}
         showsUserLocation
-        showsMyLocationButton
-        showsCompass
+        showsMyLocationButton={false}
+        showsCompass={false}
         ref={mapRef}
         toolbarEnabled={false}
         compassOffset={{ x: -Dimensions.get('window').width * 0.86, y: 0 }}
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height,
     zIndex: 1,
   },
   list: {
