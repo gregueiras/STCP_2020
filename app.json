@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "stcp_pretty",
-    "slug": "stcp_pretty",
+    "name": "STCP_2020",
+    "description": "Unnoficial application to monitor STCP bus times in Porto, sorting the stops list by location to the user",
+    "slug": "stcp_2020",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
