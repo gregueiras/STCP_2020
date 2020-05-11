@@ -5,11 +5,16 @@
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#1A73CA"
+    },
+    "notification": {
+      "color": "#1A73CA",
+      "iosDisplayInForeground": false,
+      "androidMode": "collapse"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
