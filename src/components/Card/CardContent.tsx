@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ViewStyle, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, ViewStyle, StyleSheet, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 
 import { Line } from '../../services/stops';
 import CardLine from './CardLine';
@@ -31,6 +31,7 @@ const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress
               <CardLine lineStop={item} />
             </TouchableOpacity>
           )}
+          ItemSeparatorComponent={() => <View style={{ height: Dimensions.get('screen').height * 0.01 }} />}
           keyExtractor={({ remainingTime, line, destination, time }) =>
             `${remainingTime}_${line}_${destination}_${time}`
           }
