@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'Montserrat-Medium',
     fontSize: 18,
+    textAlign: "center"
   },
 });
 

@@ -5,13 +5,14 @@ import { getLineColor } from '../../../constants';
 
 interface LineBadgeProps {
   line: string;
+  provider: string;
 }
 
-const LineBadge = ({ line }: LineBadgeProps) => {
-  const lineColor = getLineColor(line);
+const LineBadge = ({ provider, line }: LineBadgeProps) => {
+  const lineColor = getLineColor(provider, line);
 
   return (
-    <View style={{ ...styles.container, ...{ backgroundColor: lineColor } }}>
+    <View style={{ ...styles.container, ...{ backgroundColor: lineColor, minWidth: line.length > 1 ? line.length * 12 : "8%" } }}>
       <Text style={styles.badge}>{line}</Text>
     </View>
   );
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
     padding: '1%',
   },
   badge: {
+    textAlign: "center",
     color: '#FFFFFF',
     fontFamily: 'Montserrat-Bold',
   },

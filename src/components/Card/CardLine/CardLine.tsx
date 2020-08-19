@@ -6,14 +6,15 @@ import Badge from './Badge';
 
 interface CardLineProps {
   lineStop: Line;
+  provider: string;
 }
 
-const CardLine = ({ lineStop }: CardLineProps) => {
+const CardLine = ({ lineStop, provider }: CardLineProps) => {
   const { destination, line, remainingTime, time } = lineStop;
 
   return (
     <View style={styles.container}>
-      <Badge line={line} />
+      <Badge line={line} provider={provider} />
       <View style={styles.lineDescription}>
         <Text style={styles.text}>{destination}</Text>
         <Text style={styles.text}>{remainingTime || time}</Text>

@@ -62,7 +62,6 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
     const token = await Notifications.getExpoPushTokenAsync();
 
     await subscribe({ token, code, provider, line });
-    // toastRef.current?.show(`Subscribed to ${line} in ${code}`, 300);
     Toast.show(`Subscreveu o ${line} em ${code}`);
   };
 
@@ -70,8 +69,7 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
     const token = await Notifications.getExpoPushTokenAsync();
     await unsubscribe({ code, provider, token });
 
-    // toastRef.current?.show(`Unsubscribed to stop ${code}`, 300);
-    Toast.show(`Cancelou todas as subscriçõesm em ${code}`);
+    Toast.show(`Cancelou todas as subscrições em ${code}`);
   };
 
   return (
@@ -89,6 +87,7 @@ const Card = ({ code, provider, customName, message }: CardProps) => {
         lines={lines}
         loading={loading}
         refresh={refresh}
+        provider={provider}
         onPress={onSubscribe}
       />
     </View>

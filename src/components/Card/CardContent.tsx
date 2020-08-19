@@ -6,6 +6,7 @@ import CardLine from './CardLine';
 
 interface CardContentProps {
   containerStyle: ViewStyle;
+  provider: string;
   message?: string;
   lines: Line[];
   refresh: () => void;
@@ -13,7 +14,7 @@ interface CardContentProps {
   onPress: (stop: Line) => void;
 }
 
-const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress }: CardContentProps) => {
+const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress, provider }: CardContentProps) => {
   return (
     <View style={containerStyle}>
       {message ? (
@@ -28,7 +29,7 @@ const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress
           onRefresh={refresh}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => onPress(item)}>
-              <CardLine lineStop={item} />
+              <CardLine lineStop={item} provider={provider} />
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={() => <View style={{ height: Dimensions.get('screen').height * 0.01 }} />}
@@ -37,7 +38,7 @@ const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress
           }
           ListEmptyComponent={() => (
             <View style={styles.messageContainer}>
-              <Text style={styles.message}>Não há autocarros</Text>
+              <Text style={styles.message}>{loading ? "Carregando..." : "Não há autocarros"}</Text>
             </View>
           )}
         />
