@@ -32,8 +32,8 @@ const CardContent = ({ containerStyle, message, lines, refresh, loading, onPress
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={() => <View style={{ height: Dimensions.get('screen').height * 0.01 }} />}
-          keyExtractor={({ remainingTime, line, destination, time }) =>
-            `${remainingTime}_${line}_${destination}_${time}`
+          keyExtractor={({ remainingTime, line, destination, time }, index) =>
+            `${remainingTime}_${line}_${destination}_${time}_${index}`
           }
           ListEmptyComponent={() => (
             <View style={styles.messageContainer}>
