@@ -54,17 +54,13 @@ export async function findPlace(query: string, autocomplete: boolean, maxResults
         const { results } = resp as TomTomAPI;
 
         return results.map((val) => {
+          let name = val.address.freeformAddress
           if (val.poi) {
-            return {
-              name: val.poi.name,
-              address: val.address.freeformAddress,
-              lat: val.position.lat,
-              lon: val.position.lon,
-            };
+              name = val.poi.name
           }
 
           return {
-            name: val.address.freeformAddress,
+            name,
             address: val.address.freeformAddress,
             lat: val.position.lat,
             lon: val.position.lon,
@@ -90,9 +86,9 @@ export async function loadLocation({ provider, code }: Stop) {
     const { coordinates } = JSON.parse(res);
 
     [coords.longitude, coords.latitude] = coordinates;
-  } else if (provider === PROVIDERS.METRO) {
+  } else {
     try {
-      const { lat, lon } = await findPlace(`metro ${code}`, true, 1);
+      const { lat, lon } = await findPlace(`${provider} ${code}`, true, 1);
 
       coords.latitude = lat;
       coords.longitude = lon;
