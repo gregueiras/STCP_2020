@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Stop } from 'redux/stops/types';
 import * as Sentry from 'sentry-expo';
+import { Region } from 'react-native-maps';
 
 const SEARCH_URL = "http://www.move-me.mobi/Find/SearchByStops"
 const LOCATION_URL = "http://www.move-me.mobi/Stops/GetStops"
@@ -45,11 +46,6 @@ export async function searchStop(keyword: string): Promise<Stop[]> {
     }
 }
 
-interface Position {
-    latitude: number
-    longitude: number
-}
-
 export interface LocationResponse {
     Name: string;
     Code: string;
@@ -62,12 +58,15 @@ export interface LocationResponse {
 }
 
 
-export async function searchNearMe({ latitude, longitude }: Position): Promise<LocationResponse[]> {
+export async function searchNearMe({ latitude, longitude, latitudeDelta }: Region): Promise<LocationResponse[]> {
+    const oneDegreeOfLatitudeInMeters = 111.32 * 1000;
+    const meters = latitudeDelta * oneDegreeOfLatitudeInMeters / 2 
+
     const response = await axios.get<LocationResponse[]>(LOCATION_URL, {
         params: {
             oLat: latitude,
             oLon: longitude,
-            meters: 200
+            meters: meters < 200 ? 200 : meters
         }
     })
 
