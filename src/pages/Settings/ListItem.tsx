@@ -38,7 +38,7 @@ const ListItem = ({ stop, setSelectedStop }: ListItemProps) => {
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',

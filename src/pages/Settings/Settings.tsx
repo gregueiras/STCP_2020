@@ -12,10 +12,12 @@ import Header from './Header';
 import ListItem from './ListItem';
 import EditStop from './Modals/EditStop';
 import NewStop from './Modals/NewStop';
+import ProvidersList from './Modals/ProvidersList';
 
 const Settings = () => {
   const { stops } = useSelector((state: RootState) => state);
   const [openNewStop, setOpenNewStop] = useState(false);
+  const [openProviders, setOpenProviders] = useState(false);
   const [selectedStop, setSelectedStop] = useState<Stop | undefined>();
   const [locationPermission, setLocationPermission] = useState<boolean | undefined>();
 
@@ -48,8 +50,14 @@ const Settings = () => {
               <Text style={{ ...styles.text, ...styles.emptyMessage }}>Acrescente algumas paragens!</Text>
             )}
           />
+          
+          <View style={styles.buttonGroup}>
+          <View style={styles.button}>
+            <Button text="Provedores" onPress={() => setOpenProviders(true)} />
+          </View>
           <View style={styles.button}>
             <Button text="Nova Paragem" onPress={() => setOpenNewStop(true)} />
+          </View>
           </View>
         </View>
         {locationPermission !== undefined && (
@@ -64,6 +72,7 @@ const Settings = () => {
         )}
       </View>
       <NewStop open={openNewStop} setOpen={setOpenNewStop} />
+      <ProvidersList open={openProviders} setOpen={setOpenProviders} />
       <EditStop selectedStop={selectedStop} setSelectedStop={setSelectedStop} />
     </View>
   );
@@ -97,9 +106,14 @@ const styles = StyleSheet.create({
   list: {
     flexGrow: 1,
   },
+  buttonGroup: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   content: {
     flexGrow: 1,
     marginTop: Dimensions.get('window').height * 0.02,
+    maxHeight: Dimensions.get('window').height * 0.6
   },
   button: {
     marginLeft: 'auto',

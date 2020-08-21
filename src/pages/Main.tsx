@@ -35,7 +35,7 @@ const defaultState = {
 
 export default function App() {
   const navigation = useNavigation();
-  const { stops } = useSelector((state: RootState) => state);
+  const { stops, providers } = useSelector((state: RootState) => state);
   const [userLocation, setUserLocation] = useState<UserLocation>();
   const [isInFirstItem, setIsInFirstItem] = useState(true);
   const [nearStops, setNearStops] = useState<LocationResponse[]>([]);
@@ -152,7 +152,7 @@ export default function App() {
             identifier={`${stop.provider}_${stop.code}#${stop.customName}`} />;
           return undefined;
         })}
-        {nearStops.map((stop) =>
+        {nearStops.filter((stop) => !providers.includes(stop.Provider as any)).map((stop) =>
           <Marker
             pinColor={"navy"}
             key={stop.Code + stop.Name}

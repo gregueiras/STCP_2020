@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Modal from 'react-native-modal';
 import Card from '../../../components/Card/Card';
 import { Stop } from '../../../redux/stops/types';

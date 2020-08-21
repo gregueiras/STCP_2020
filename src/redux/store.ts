@@ -5,8 +5,9 @@ import thunk from 'redux-thunk';
 
 import { stopsReducer } from './stops/reducers';
 import { StopsState } from './stops/types';
+import { providersReducer, ProvidersState } from './providers';
 
-export type RootState = { stops: StopsState };
+export type RootState = { stops: StopsState, providers: ProvidersState };
 
 const storage = createSecureStore();
 
@@ -17,6 +18,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers<RootState>({
   stops: stopsReducer,
+  providers: providersReducer
 });
 
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
