@@ -15,7 +15,7 @@ import { getName } from '../services/aux';
 import { UserLocation, distance } from '../services/location';
 import { searchNearMe, LocationResponse } from '../services/search';
 import sharedStyles from './styles';
-import TempStop from './TempStop';
+import TempStop from './Settings/Modals/TempStop';
 
 interface OnView {
   viewableItems: ViewToken[];
@@ -41,7 +41,7 @@ export default function App() {
   const [nearStops, setNearStops] = useState<LocationResponse[]>([]);
   const [stopSelected, setStopSelected] = useState<Stop>();
   const [isOpenStopModal, setIsOpenStopModal] = useState(false);
-  
+
 
   useEffect(() => {
     watchLocation();
@@ -142,22 +142,23 @@ export default function App() {
         onCalloutPress={(event) => {
           const [temp, customName] = (event.nativeEvent as any).id.split("#")
           const [provider, code] = temp.split("_")
-          setStopSelected({code, provider, customName})
+          setStopSelected({ code, provider, customName })
           setIsOpenStopModal(true)
         }}
       >
         {stops.map((stop) => {
           const { location: loc } = stop;
-          if (loc) return <Marker key={JSON.stringify(loc)} coordinate={loc} title={getName(stop)} />;
+          if (loc) return <Marker key={JSON.stringify(loc)} coordinate={loc} title={getName(stop)}
+            identifier={`${stop.provider}_${stop.code}#${stop.customName}`} />;
           return undefined;
         })}
-        {nearStops.map((stop) => 
+        {nearStops.map((stop) =>
           <Marker
             pinColor={"navy"}
             key={stop.Code + stop.Name}
             identifier={[stop.Code, stop.Name].join("#")}
-            coordinate={{latitude: stop.CoordX, longitude:stop.CoordY}}
-            title={getName({provider: stop.Provider, code: stop.Code.split("_")[1]}, false)} 
+            coordinate={{ latitude: stop.CoordX, longitude: stop.CoordY }}
+            title={getName({ provider: stop.Provider, code: stop.Code.split("_")[1] }, false)}
           />
         )}
       </MapView>
