@@ -16,7 +16,7 @@
     "@react-navigation/native": "^5.2.4",
     "@react-navigation/stack": "^5.2.19",
     "@rnhooks/keyboard": "^0.0.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~37.0.3",
     "expo-cli": "^3.20.3",
     "expo-constants": "~9.0.0",
